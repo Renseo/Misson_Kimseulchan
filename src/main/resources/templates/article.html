@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>Write</title>
+</head>
+
+<body>
+
+<div>
+  <h1>Write Article</h1>
+  <a href="/boards">Back</a>
+</div>
+<hr>
+<form action="/boards/article" th:object="${dto}" method="post">
+  <div>
+    <label th:for="type">Type</label>
+    <select th:field="*{type}">
+      <option value="1">자유 게시판</option>
+      <option value="2">개발 게시판</option>
+      <option value="3">일상 게시판</option>
+      <option value="4">사건 사고 게시판</option>
+    </select>
+  </div>
+  <div>
+    <label th:for="title">Title</label>
+    <input type="text" th:field="*{title}" placeholder="제목을 입력하세요." >
+  </div>
+  <div>
+    <label th:for="content">Content</label>
+    <input type="text" th:field="*{content}" placeholder="내용을 입력하세요." >
+  </div>
+  <div>
+    <label th:for="password">Password</label>
+    <input type="password" th:field="*{password}" placeholder="비밀번호를 입력하세요." >
+  </div>
+  <button type="submit" >Submit</button>
+</form>
+
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${board.title}"></title>
+</head>
+
+<body>
+
+<div>
+  <h1>Update: [[${board.title}]]</h1>
+  <a th:href="@{/article/{id} (id=${board.id})}">Back</a>
+</div>
+<hr>
+<form th:action="@{/article/{id}/update (id=${board.id})}" method="post">
+  <div>
+    <label th:for="title-input">Title</label>
+    <input type="text" name="title" id="title-input" th:value="${board.title}">
+  </div>
+  <div>
+    <label th:for="content-input">Content</label>
+    <input type="text" name="content" id="content-input" th:value="${board.content}">
+  </div>
+  <button type="submit" >Submit</button>
+</form>
+
+</body>
+</html>

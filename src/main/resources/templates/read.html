@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${board.title}" ></title>
+</head>
+
+<body>
+
+<div>
+  <h1 th:text="${board.title}"></h1>
+  <hr>
+  <a href="/boards">Back</a>
+  <form th:action="@{/article/{id}/update (id=${board.id})}" method="get">
+    <label for="password-input">Password</label>
+    <input type="password" id="password-input" name="password">
+    <input type="submit" value="Update">
+  </form>
+
+  <form th:action="@{/article/{id}/delete (id=${board.id})}" method="post">
+    <label for="password-input">Password</label>
+    <input type="password" name="password">
+    <input type="submit" value="Delete">
+  </form>
+</div>
+
+<hr>
+<p th:text="${board.content}"></p>
+<hr>
+
+<form th:action="@{/article/{id}/comment (id=${board.id})}" th:object="${comment}" method="post">
+  <div>
+    <label th:for="password">Password</label>
+    <input type="text" th:field="*{password}">
+  </div>
+  <div>
+    <label th:for="content">Content</label>
+    <input type="text" th:field="*{content}">
+  </div>
+  <input type="submit" value="Write">
+</form>
+<hr>
+
+<div th:if="${board.comments.isEmpty()}"><h3>No Comments</h3></div>
+<div th:unless="${board.comments.isEmpty()}" th:each="comment : ${board.comments}">
+  <div>
+    <div>
+      <form th:action="@{/article/{aId}/comment/{cId}/delete/ (aId=${board.id}, cId=${comment.id})}" method="post">
+        <label for="cPassword-input">Password</label>
+        <input type="text" id="cPassword-input" name="cPassword">
+        <input type="submit" value="Delete">
+      </form>
+    </div>
+  </div>
+  <p th:text="${comment.content}"></p>
+</div>
+
+</body>
+
+</html>

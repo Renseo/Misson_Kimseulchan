@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+  <meta charset="UTF-8">
+  <title>Total Board</title>
+</head>
+
+<body>
+
+<div>
+  <td th:switch="${boardId}">
+    <h1 th:case="null">전체 게시판</h1>
+    <h1 th:case="1">자유 게시판</h1>
+    <h1 th:case="2">개발 게시판</h1>
+    <h1 th:case="3">일상 게시판</h1>
+    <h1 th:case="4">사건 사고 게시판</h1>
+  </td>
+  <a href="/boards/article">Write</a>
+  <a href="/boards">전체 게시판</a>
+  <a href="/boards/1">자유 게시판</a>
+  <a href="/boards/2">개발 게시판</a>
+  <a href="/boards/3">일상 게시판</a>
+  <a href="/boards/4">사건 사고 게시판</a>
+</div>
+
+<h2 th:if="${boards.isEmpty()}">
+  No Articles
+</h2>
+<table th:unless="${boards.isEmpty()}">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Title</th>
+    <th>Type</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="board: ${boards}">
+    <td th:text="${board.id}"></td>
+    <td>
+      <a th:href="@{/article/{id}(id=${board.id})}" th:text="${board.title}"></a>
+    </td>
+    <td th:text="${board.type}"></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+
+</html>
