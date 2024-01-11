@@ -1,9 +1,9 @@
 package com.board.anonymousbulletinboard.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -12,18 +12,17 @@ public class Comment {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Setter
+    @NotBlank
     private String content;
-    @Setter
+    @NotBlank
     private String password;
 
     @ManyToOne
-    private Board board;
+    private Article article;
 
-    public Comment(String content, String password, Board board) {
+    public Comment(String content, String password, Article article) {
         this.content = content;
         this.password = password;
-        this.board = board;
+        this.article = article;
     }
 }

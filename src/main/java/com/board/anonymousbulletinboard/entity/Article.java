@@ -1,7 +1,7 @@
 package com.board.anonymousbulletinboard.entity;
 
-import com.board.anonymousbulletinboard.entity.Comment;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,24 +12,25 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Board {
+public class Article {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     private Integer type;
     @Setter
+    @NotBlank
     private String title;
     @Setter
+    @NotBlank
     private String content;
-    @Setter
+    @NotBlank
     private String password;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "article")
     private final List<Comment> comments = new ArrayList<>();
 
-    public Board(Integer type, String title, String content, String password) {
+    public Article(Integer type, String title, String content, String password) {
         this.type = type;
         this.title = title;
         this.content = content;

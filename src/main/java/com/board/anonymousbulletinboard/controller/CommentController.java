@@ -1,7 +1,6 @@
 package com.board.anonymousbulletinboard.controller;
 
 import com.board.anonymousbulletinboard.dto.CommentDto;
-import com.board.anonymousbulletinboard.service.BoardService;
 import com.board.anonymousbulletinboard.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final BoardService boardService;
     private final CommentService commentService;
 
     @PostMapping("article/{articleId}/comment")

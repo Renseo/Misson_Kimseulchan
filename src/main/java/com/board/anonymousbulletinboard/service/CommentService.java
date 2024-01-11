@@ -2,8 +2,8 @@ package com.board.anonymousbulletinboard.service;
 
 import com.board.anonymousbulletinboard.dto.CommentDto;
 import com.board.anonymousbulletinboard.entity.Comment;
-import com.board.anonymousbulletinboard.entity.Board;
-import com.board.anonymousbulletinboard.repository.BoardRepository;
+import com.board.anonymousbulletinboard.entity.Article;
+import com.board.anonymousbulletinboard.repository.ArticleRepository;
 import com.board.anonymousbulletinboard.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,30 +12,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CommentService {
 
-    private final BoardRepository boardRepository;
+    private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
 
-    public CommentDto create(Long boardId, CommentDto dto) {
-        Board board = boardRepository.findById(boardId)
+    public void create(Long boardId, CommentDto dto) {
+        Article article = articleRepository.findById(boardId)
                 .orElseThrow();
         Comment comment = new Comment(
-                dto.getContent(), dto.getPassword(), board
+                dto.getContent(), dto.getPassword(), article
         );
 
-        return CommentDto.fromEntity(commentRepository.save(comment));
-    }
-
-    public CommentDto read(Long commentId) {
-        return CommentDto.fromEntity(commentRepository.findById(commentId)
-                .orElseThrow());
-    }
-
-    public CommentDto update(Long commentId, CommentDto dto) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow();
-
-        comment.setContent(dto.getContent());
-        return CommentDto.fromEntity(commentRepository.save(comment));
+        CommentDto.fromEntity(commentRepository.save(comment));
     }
 
     public void delete(Long commentId) {

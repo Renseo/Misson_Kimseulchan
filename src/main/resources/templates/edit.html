@@ -2,24 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
   <meta charset="UTF-8">
-  <title th:text="${board.title}"></title>
+  <title th:text="${article.title}"></title>
 </head>
 
 <body>
 
 <div>
-  <h1>Update: [[${board.title}]]</h1>
-  <a th:href="@{/article/{id} (id=${board.id})}">Back</a>
+  <h1>Update: [[${article.title}]]</h1>
+  <a th:href="@{/article/{id} (id=${article.id})}">Back</a>
 </div>
 <hr>
-<form th:action="@{/article/{id}/update (id=${board.id})}" method="post">
+<form th:action="@{/article/{id}/update (id=${article.id})}" method="post">
   <div>
     <label th:for="title-input">Title</label>
-    <input type="text" name="title" id="title-input" th:value="${board.title}">
+    <input type="text" name="title" id="title-input" th:value="${article.title}">
   </div>
   <div>
     <label th:for="content-input">Content</label>
-    <input type="text" name="content" id="content-input" th:value="${board.content}">
+    <input type="text" name="content" id="content-input" th:value="${article.content}">
   </div>
   <button type="submit" >Submit</button>
 </form>

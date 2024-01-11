@@ -1,25 +1,28 @@
 package com.board.anonymousbulletinboard.controller;
 
-import com.board.anonymousbulletinboard.dto.BoardDto;
+import com.board.anonymousbulletinboard.dto.ArticleDto;
 import com.board.anonymousbulletinboard.dto.CommentDto;
-import com.board.anonymousbulletinboard.service.BoardService;
+import com.board.anonymousbulletinboard.service.ArticleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-public class BoardController {
+public class ArticleController {
 
-    private final BoardService boardService;
+    private final ArticleService articleService;
 
     @GetMapping("/boards")
-    public String boards(Model model) {
-        model.addAttribute("boards", boardService.readAll());
-        return "index";
+    public String boardList(Model model) {
+        model.addAttribute("articleList", articleService.readAll());
+        return "board";
     }
 
     @GetMapping("/boards/{boardId}")
@@ -27,21 +30,24 @@ public class BoardController {
             @PathVariable("boardId")
             Integer boardId,
             Model model) {
-        model.addAttribute("boards", boardService.readBoardType(boardId));
-        return "index";
+        model.addAttribute("articleList", articleService.readBoardType(boardId));
+        return "board";
     }
 
     @GetMapping("/boards/article")
     public String boardWrite(Model model) {
-        model.addAttribute("dto", new BoardDto());
+        model.addAttribute("articleDto",new ArticleDto());
         return "article";
     }
 
     @PostMapping("/boards/article")
-    public String create(BoardDto dto) {
-        System.out.println(dto);
-        boardService.create(dto);
-        return "redirect:/boards";
+    public String create(@Valid ArticleDto articleDto, BindingResult result) {
+
+        if(result.hasErrors()) {
+            return "article";
+        }
+        Long articleId = articleService.create(articleDto).getId();
+        return "redirect:/article/%s".formatted(articleId);
     }
 
     @GetMapping("/article/{articleId}")
@@ -50,7 +56,7 @@ public class BoardController {
             Long id,
             Model model
     ) {
-        model.addAttribute("board", boardService.read(id));
+        model.addAttribute("article", articleService.read(id));
         model.addAttribute("comment", new CommentDto());
         return "read";
     }
@@ -63,8 +69,8 @@ public class BoardController {
             String password,
             Model model
     ) {
-        boardService.checkPassword(id, password);
-        model.addAttribute("board", boardService.read(id));
+        articleService.checkPassword(id, password);
+        model.addAttribute("article", articleService.read(id));
         return "edit";
     }
 
@@ -73,11 +79,13 @@ public class BoardController {
             @PathVariable("articleId")
             Long id,
             @RequestParam("title")
+            @Valid
             String title,
             @RequestParam("content")
+            @Valid
             String content
     ) {
-        boardService.update(id, new BoardDto(title, content));
+        articleService.update(id, new ArticleDto(title, content));
         return "redirect:/article/%s".formatted(id);
     }
 
@@ -88,8 +96,8 @@ public class BoardController {
             @RequestParam("password")
             String password
     ) {
-        boardService.checkPassword(id, password);
-        boardService.delete(id);
+        articleService.checkPassword(id, password);
+        articleService.delete(id);
         return "redirect:/boards";
     }
 }

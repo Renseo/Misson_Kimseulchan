@@ -1,6 +1,7 @@
 package com.board.anonymousbulletinboard.dto;
 
 import com.board.anonymousbulletinboard.entity.Comment;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +11,9 @@ import lombok.Setter;
 public class CommentDto {
 
     private Long id;
-    @Setter
+    @NotBlank(message = "내용을 입력해주세요.")
     private String content;
-    @Setter
+    @NotBlank(message = "비밀번호을 입력해주세요.")
     private String password;
 
     public CommentDto(String content, String password) {
@@ -26,13 +27,5 @@ public class CommentDto {
         dto.content = entity.getContent();
         dto.password = entity.getPassword();
         return dto;
-    }
-
-    @Override
-    public String toString() {
-        return "CommentDto{" +
-                "id=" + id +
-                ", content='" + content + '\'' +
-                '}';
     }
 }
